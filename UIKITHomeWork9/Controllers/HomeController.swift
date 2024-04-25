@@ -10,7 +10,48 @@ import UIKit
 class HomeController: UIViewController {
     
     // MARK: - Variables
-    private let country: [countries] = countries.getArray()
+    private let country: [Countries] = [
+        Countries(
+            name: Name(common: "CountryName", official: "OfficialCountryName"),
+            altSpellings: ["Alt1", "Alt2"],
+            region: "Region",
+            subregion: "Subregion",
+            independent: true,
+            status: "Status",
+            capital: ["Capital1", "Capital2"],
+            maps: Map(googleMaps: "GoogleMapsURL", openStreetMaps: "OpenStreetMapsURL"),
+            flags: Flags(png: "FlagPNGURL", svg: "FlagSVGURL", alt: "FlagAlt"),
+            capitalInfo: CapitalInfo(latlng: [0.0, 0.0]), // Fixed typo and used correct struct name
+            postalCode: PostalCode(format: "Format", regex: "Regex") // Fixed typo and used correct struct name
+        ),
+        Countries(
+            name: Name(common: "CountryName", official: "OfficialCountryName"),
+            altSpellings: ["Alt1", "Alt2"],
+            region: "Region",
+            subregion: "Subregion",
+            independent: true,
+            status: "Status",
+            capital: ["Capital1", "Capital2"],
+            maps: Map(googleMaps: "GoogleMapsURL", openStreetMaps: "OpenStreetMapsURL"),
+            flags: Flags(png: "FlagPNGURL", svg: "FlagSVGURL", alt: "FlagAlt"),
+            capitalInfo: CapitalInfo(latlng: [0.0, 0.0]),
+            postalCode: PostalCode(format: "Format", regex: "Regex")
+        ),
+        Countries(
+            name: Name(common: "CountryName", official: "OfficialCountryName"),
+            altSpellings: ["Alt1", "Alt2"],
+            region: "Region",
+            subregion: "Subregion",
+            independent: true,
+            status: "Status",
+            capital: ["Capital1", "Capital2"],
+            maps: Map(googleMaps: "GoogleMapsURL", openStreetMaps: "OpenStreetMapsURL"),
+            flags: Flags(png: "FlagPNGURL", svg: "FlagSVGURL", alt: "FlagAlt"),
+            capitalInfo: CapitalInfo(latlng: [0.0, 0.0]),
+            postalCode: PostalCode(format: "Format", regex: "Regex")
+        )
+    ]
+
     
     
     //MARK: - UI Components
@@ -77,7 +118,8 @@ extension HomeController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.tableView.deselectRow(at: indexPath, animated: true)
         let country = self.country[indexPath.row]
-        let vc = DetailsController(country)
+        let vm = ViewCountryViewModel(country: country)
+        let vc = DetailsController(vm)
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

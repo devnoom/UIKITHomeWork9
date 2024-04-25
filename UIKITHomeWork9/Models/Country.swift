@@ -1,43 +1,36 @@
-//
-//  Country.swift
-//  UIKITHomeWork9
-//
-//  Created by MacBook Air on 24.04.24.
-//
-
 import UIKit
 
-struct Map: Codable {
+struct Map: Decodable {
     let googleMaps: String?
     let openStreetMaps: String?
 
     enum CodingKeys: String, CodingKey {
-        case googleMaps = "googleMaps"
-        case openStreetMaps = "openStreetMaps"
+        case googleMaps
+        case openStreetMaps
     }
 }
 
-struct Flags: Codable {
+struct Flags: Decodable {
     let png: String?
     let svg: String?
     let alt: String?
 }
 
-struct postalCode: Codable {
+struct PostalCode: Decodable {
     let format: String?
     let regex: String?
 }
 
-struct capitalInfo: Codable {
+struct CapitalInfo: Decodable {
     let latlng: [Double]?
 }
 
-struct Name: Codable {
-        let common: String?
-        let official: String?
-    }
+struct Name: Decodable {
+    let common: String?
+    let official: String?
+}
 
-struct countries: Codable {
+struct Countries: Decodable {
     let name: Name?
     let altSpellings: [String]?
     let region: String?
@@ -47,65 +40,29 @@ struct countries: Codable {
     let capital: [String]?
     let maps: Map?
     let flags: Flags?
-    let capitalInfo: capitalInfo?
-    let postalCode: postalCode?
+    let capitalInfo: CapitalInfo?
+    let postalCode: PostalCode?
     
-    
-}
-func loadImage(from url: URL, completion: @escaping (UIImage?, Error?) -> Void) {
-    URLSession.shared.dataTask(with: url) { data, response, error in
-        guard let data = data, let image = UIImage(data: data), error == nil else {
-            completion(nil, error ?? NSError(domain: "Image loading error", code: -1, userInfo: nil))
-            return
-        }
-        completion(image, nil)
-    }.resume()
-}
-
-extension countries {
-    
-    public static func getArray() -> [countries]{
-        return [
-            countries(
-                        name: Name(common: "CountryName", official: "OfficialCountryName"),
-                        altSpellings: ["Alt1", "Alt2"],
-                        region: "Region",
-                        subregion: "Subregion",
-                        independent: true,
-                        status: "Status",
-                        capital: ["Capital1", "Capital2"],
-                        maps: Map(googleMaps: "GoogleMapsURL", openStreetMaps: "OpenStreetMapsURL"),
-                        flags: Flags(png: "FlagPNGURL", svg: "FlagSVGURL", alt: "FlagAlt"),
-                        capitalInfo: UIKITHomeWork9.capitalInfo(latlng: [0.0, 0.0]),
-                        postalCode: UIKITHomeWork9.postalCode(format: "Format", regex: "Regex")
-                    ),
-            countries(
-                        name: Name(common: "CountryName", official: "OfficialCountryName"),
-                        altSpellings: ["Alt1", "Alt2"],
-                        region: "Region",
-                        subregion: "Subregion",
-                        independent: true,
-                        status: "Status",
-                        capital: ["Capital1", "Capital2"],
-                        maps: Map(googleMaps: "GoogleMapsURL", openStreetMaps: "OpenStreetMapsURL"),
-                        flags: Flags(png: "FlagPNGURL", svg: "FlagSVGURL", alt: "FlagAlt"),
-                        capitalInfo: UIKITHomeWork9.capitalInfo(latlng: [0.0, 0.0]),
-                        postalCode: UIKITHomeWork9.postalCode(format: "Format", regex: "Regex")
-                    ),
-            countries(
-                        name: Name(common: "CountryName", official: "OfficialCountryName"),
-                        altSpellings: ["Alt1", "Alt2"],
-                        region: "Region",
-                        subregion: "Subregion",
-                        independent: true,
-                        status: "Status",
-                        capital: ["Capital1", "Capital2"],
-                        maps: Map(googleMaps: "GoogleMapsURL", openStreetMaps: "OpenStreetMapsURL"),
-                        flags: Flags(png: "FlagPNGURL", svg: "FlagSVGURL", alt: "FlagAlt"),
-                        capitalInfo: UIKITHomeWork9.capitalInfo(latlng: [0.0, 0.0]),
-                        postalCode: UIKITHomeWork9.postalCode(format: "Format", regex: "Regex")
-                    )
-        ]
-        
+    enum CodingKeys: String, CodingKey {
+        case name
+        case altSpellings
+        case region
+        case subregion
+        case independent
+        case status
+        case capital
+        case maps
+        case flags
+        case capitalInfo
+        case postalCode
     }
+    
+    var flagURL: URL? {
+        return URL(string:
+                    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FFlag_of_Georgia_%2528country%2529&psig=AOvVaw3Yes7GblYD02IhVFjb0RnW&ust=1714118277677000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCJiT5qjy3IUDFQAAAAAdAAAAABAE")
+    }
+    
+    
+    
+    
 }

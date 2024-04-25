@@ -10,7 +10,8 @@ import UIKit
 class DetailsController: UIViewController {
 
     //MARK: - Variables
-    private let country: countries
+    let viewModel: ViewCountryViewModel
+    
     //MARK: - UI Components
     let nativeNameKey = UILabel()
   
@@ -18,8 +19,8 @@ class DetailsController: UIViewController {
   
     let capitalKey = UILabel()
    
-    let currencyKey = UILabel()
-   
+    let statusKey = UILabel()
+   let countryFlag = UIImageView()
     let regionKey = UILabel()
     let Flag: UIImageView = {
         let flag = UIImageView()
@@ -51,7 +52,7 @@ class DetailsController: UIViewController {
     }()
     let uiView = UIView()
     private lazy var infoKeyStack: UIStackView = {
-        let infoKeyStack = UIStackView(arrangedSubviews: [nativeNameKey, spellingKey, capitalKey, currencyKey, regionKey, postalCodeKey])
+        let infoKeyStack = UIStackView(arrangedSubviews: [nativeNameKey, spellingKey, capitalKey, statusKey, regionKey, postalCodeKey])
         infoKeyStack.translatesAutoresizingMaskIntoConstraints = false
         infoKeyStack.axis = .vertical
         infoKeyStack.spacing = 5
@@ -75,8 +76,8 @@ class DetailsController: UIViewController {
     }()
     
     //MARK: - LifeCycle
-    init(_ country: countries) {
-        self.country = country
+    init(_ viewModel: ViewCountryViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -87,15 +88,22 @@ class DetailsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
-        self.navigationItem.title = self.country.name?.common
+        self.navigationItem.title = self.viewModel.country.name?.common
         self.navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "Back", style: .done, target: nil, action: nil)
         
-        self.regionKey.text = self.country.region?.description
-        self.postalCodeKey.text = self.country.postalCode?.format?.description
-        self.currencyKey.text = self.country.name?.common?.description
-        self.capitalKey.text = self.capitalKey.description
-        self.nativeNameKey.text = self.country.subregion?.description
-        self.spellingKey.text = self.spellingKey.description
+        self.regionKey.text = self.viewModel.regionLabel
+        self.postalCodeKey.text = self.viewModel.postalLabel
+        self.statusKey.text = self.viewModel.statusLabel
+        self.capitalKey.text = self.viewModel.capitalLabel
+        self.nativeNameKey.text = self.viewModel.nativeNameLabel
+        self.spellingKey.text = self.viewModel.spellingLabel
+        self.viewModel.onImageLoaded = { [weak self] logoImage in
+            DispatchQueue.main.async {
+                self?.countryFlag.image = logoImage
+            }
+        }
+        
+       
 
     }
     
@@ -128,6 +136,13 @@ class DetailsController: UIViewController {
             contentView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
+            countryFlag.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            countryFlag.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            countryFlag.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            countryFlag.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            countryFlag.heightAnchor.constraint(equalToConstant: 200),
+            //countryFlag.widthAnchor.constraint(equalToConstant: 300),
             
 //            headerStack.topAnchor.constraint(equalTo: contentView.topAnchor),
 //            headerStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),

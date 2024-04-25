@@ -12,7 +12,7 @@ class CountryCell: UITableViewCell {
     static let identifier = "CountryCell"
     
     // MARK: - Variables
-    private(set) var country: countries!
+    private(set) var country: Countries!
     
     // MARK: - UI Components
     
@@ -21,7 +21,6 @@ class CountryCell: UITableViewCell {
         CF.contentMode = .scaleAspectFit
         CF.image = UIImage(systemName: "square")
         CF.tintColor = .black
-        CF.backgroundColor = .systemBlue
         return CF
     }()
     
@@ -44,19 +43,15 @@ class CountryCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func configure(with countries: countries) {
+    public func configure(with countries: Countries) {
         self.country = countries
         
         self.CountryName.text = countries.name?.common
-        if let flags = country?.flags, let pngURLString = flags.png, let url = URL(string: pngURLString) {
-            loadImage(from: url) { (image, error) in
-                DispatchQueue.main.async {
-                    if let image = image {
-                        self.CountryFlag.image = image
-                    } else {
-                        print("Error loading image:", error?.localizedDescription ?? "Unknown error")
-                    }
-                }
+       
+        let imageData = try? Data(contentsOf: self.country.flagURL!)
+        if let imageData {
+            DispatchQueue.main.async { [weak self] in
+                self?.CountryFlag.image = UIImage(data: imageData)
             }
         }
     }
