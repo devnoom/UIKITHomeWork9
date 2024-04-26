@@ -16,9 +16,8 @@
 		D014D57C2BD9964500713BF0 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = D014D57B2BD9964500713BF0 /* Country.swift */; };
 		D014D57E2BD998D800713BF0 /* CountryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D014D57D2BD998D800713BF0 /* CountryCell.swift */; };
 		D014D5812BD9A2B400713BF0 /* DetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D014D5802BD9A2B400713BF0 /* DetailsController.swift */; };
+		D02943752BDC284A008C1CD9 /* networkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02943742BDC284A008C1CD9 /* networkManager.swift */; };
 		D0E99C0A2BDA3D2B0035835E /* ViewCountryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E99C092BDA3D2B0035835E /* ViewCountryViewModel.swift */; };
-		D0E99C0E2BDA9EC20035835E /* HTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E99C0D2BDA9EC20035835E /* HTTP.swift */; };
-		D0E99C102BDA9FD90035835E /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E99C0F2BDA9FD90035835E /* Endpoint.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,9 +32,8 @@
 		D014D57B2BD9964500713BF0 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		D014D57D2BD998D800713BF0 /* CountryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCell.swift; sourceTree = "<group>"; };
 		D014D5802BD9A2B400713BF0 /* DetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsController.swift; sourceTree = "<group>"; };
+		D02943742BDC284A008C1CD9 /* networkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = networkManager.swift; sourceTree = "<group>"; };
 		D0E99C092BDA3D2B0035835E /* ViewCountryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCountryViewModel.swift; sourceTree = "<group>"; };
-		D0E99C0D2BDA9EC20035835E /* HTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTP.swift; sourceTree = "<group>"; };
-		D0E99C0F2BDA9FD90035835E /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,8 +125,7 @@
 		D014D5762BD993FA00713BF0 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				D0E99C0D2BDA9EC20035835E /* HTTP.swift */,
-				D0E99C0F2BDA9FD90035835E /* Endpoint.swift */,
+				D02943742BDC284A008C1CD9 /* networkManager.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -203,11 +200,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0E99C0E2BDA9EC20035835E /* HTTP.swift in Sources */,
 				D0E99C0A2BDA3D2B0035835E /* ViewCountryViewModel.swift in Sources */,
 				D014D5812BD9A2B400713BF0 /* DetailsController.swift in Sources */,
+				D02943752BDC284A008C1CD9 /* networkManager.swift in Sources */,
 				D014D5782BD9944000713BF0 /* HomeController.swift in Sources */,
-				D0E99C102BDA9FD90035835E /* Endpoint.swift in Sources */,
 				D014D5482BD9136500713BF0 /* AppDelegate.swift in Sources */,
 				D014D57E2BD998D800713BF0 /* CountryCell.swift in Sources */,
 				D014D54A2BD9136500713BF0 /* SceneDelegate.swift in Sources */,

@@ -12,24 +12,22 @@ class CountryCell: UITableViewCell {
     static let identifier = "CountryCell"
     
     // MARK: - Variables
-    private(set) var country: Countries!
+    //private(set)
+     var country: Country!
     
     // MARK: - UI Components
     
     private let CountryFlag: UIImageView = {
         let CF = UIImageView()
-        CF.contentMode = .scaleAspectFit
-        CF.image = UIImage(systemName: "square")
-        CF.tintColor = .black
         return CF
     }()
     
-    private let CountryName: UILabel = {
+     let CountryName: UILabel = {
         let label = UILabel()
         label.textColor = .label
         label.textAlignment = .right
         label.font = .systemFont(ofSize: 15, weight: .semibold)
-        label.text = "Title"
+        //label.text = "Title"
         return label
     }()
     
@@ -37,24 +35,41 @@ class CountryCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.setupUI()
+
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func configure(with countries: Countries) {
-        self.country = countries
-        
-        self.CountryName.text = countries.name?.common
-       
-        let imageData = try? Data(contentsOf: self.country.flagURL!)
-        if let imageData {
-            DispatchQueue.main.async { [weak self] in
-                self?.CountryFlag.image = UIImage(data: imageData)
+    public func configure(with country: Country) {
+        self.country = country
+        loadImage(for: country)
+    }
+
+    private func loadImage(for country: Country) {
+        // Check if the country has a valid flag URL
+        if let flagURLString = country.flags?.png, let flagURL = URL(string: flagURLString) {
+            // Load image asynchronously
+            NetworkManager.shared.loadImage(from: flagURL) { [weak self] image, error in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    if let error = error {
+                        // Handle error loading image
+                        print("Error loading image for \(country.name?.common ?? "Unknown country"): \(error)")
+                    } else if let image = image {
+                        // Assign loaded image to the country object
+                        self.CountryFlag.image = image
+                        // Notify delegate that the image has been loaded for this country
+                        //self.delegate?.countryImageLoaded(country: country)
+                    }
+                }
             }
         }
     }
+
+       
+    
     
     // TODO: - PrepareForReuse
     

@@ -8,53 +8,17 @@
 import UIKit
 
 class HomeController: UIViewController {
+   
+    var onCountryUpdated: (()-> Void)?
+    
     
     // MARK: - Variables
-    private let country: [Countries] = [
-        Countries(
-            name: Name(common: "CountryName", official: "OfficialCountryName"),
-            altSpellings: ["Alt1", "Alt2"],
-            region: "Region",
-            subregion: "Subregion",
-            independent: true,
-            status: "Status",
-            capital: ["Capital1", "Capital2"],
-            maps: Map(googleMaps: "GoogleMapsURL", openStreetMaps: "OpenStreetMapsURL"),
-            flags: Flags(png: "FlagPNGURL", svg: "FlagSVGURL", alt: "FlagAlt"),
-            capitalInfo: CapitalInfo(latlng: [0.0, 0.0]), // Fixed typo and used correct struct name
-            postalCode: PostalCode(format: "Format", regex: "Regex") // Fixed typo and used correct struct name
-        ),
-        Countries(
-            name: Name(common: "CountryName", official: "OfficialCountryName"),
-            altSpellings: ["Alt1", "Alt2"],
-            region: "Region",
-            subregion: "Subregion",
-            independent: true,
-            status: "Status",
-            capital: ["Capital1", "Capital2"],
-            maps: Map(googleMaps: "GoogleMapsURL", openStreetMaps: "OpenStreetMapsURL"),
-            flags: Flags(png: "FlagPNGURL", svg: "FlagSVGURL", alt: "FlagAlt"),
-            capitalInfo: CapitalInfo(latlng: [0.0, 0.0]),
-            postalCode: PostalCode(format: "Format", regex: "Regex")
-        ),
-        Countries(
-            name: Name(common: "CountryName", official: "OfficialCountryName"),
-            altSpellings: ["Alt1", "Alt2"],
-            region: "Region",
-            subregion: "Subregion",
-            independent: true,
-            status: "Status",
-            capital: ["Capital1", "Capital2"],
-            maps: Map(googleMaps: "GoogleMapsURL", openStreetMaps: "OpenStreetMapsURL"),
-            flags: Flags(png: "FlagPNGURL", svg: "FlagSVGURL", alt: "FlagAlt"),
-            capitalInfo: CapitalInfo(latlng: [0.0, 0.0]),
-            postalCode: PostalCode(format: "Format", regex: "Regex")
-        )
-    ]
-
-    
+    private var countries: [Country] = []
+    private var viewModel = ViewCountryViewModel()
+     var filtredCountry: [Country] = []
     
     //MARK: - UI Components
+    private let searchController = UISearchController(searchResultsController: nil)
     private let tableView: UITableView = {
         let TV = UITableView()
         TV.backgroundColor = .systemBackground
@@ -69,8 +33,15 @@ class HomeController: UIViewController {
         self.setupUI()
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        self.onCountryUpdated = { [weak self] in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }}
+        viewModel.delegate = self
+        viewModel.viewDidLoad()
+        setupSearchController()
         
-
+        
     }
     
     
@@ -90,6 +61,17 @@ class HomeController: UIViewController {
         ])
         
     }
+    private func setupSearchController() {
+        self.searchController.searchResultsUpdater = self
+        self.searchController.obscuresBackgroundDuringPresentation = false
+        self.searchController.hidesNavigationBarDuringPresentation = false
+        self.searchController.searchBar.placeholder = "Search country"
+        
+        self.navigationItem.searchController = searchController
+        self.definesPresentationContext = false
+        self.navigationItem.hidesSearchBarWhenScrolling = false
+        
+    }
     
     //MARK: - Selectors
     
@@ -97,30 +79,52 @@ class HomeController: UIViewController {
 
     
 }
-//MARK: - Tableview Functions
-extension HomeController: UITableViewDelegate, UITableViewDataSource {
+//MARK: - Tableview extensions
+extension HomeController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        country.count
+        countries.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CountryCell.identifier, for: indexPath) as? CountryCell else {
-            fatalError("Unable to dequeue CountryCell in HomeController")
-        }
-        let country = self.country[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: CountryCell.identifier, for: indexPath) as! CountryCell
+        let country = countries[indexPath.row]
+        cell.CountryName.text = country.name?.common
         cell.configure(with: country)
         return cell
     }
+
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         50
     }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.tableView.deselectRow(at: indexPath, animated: true)
-        let country = self.country[indexPath.row]
-        let vm = ViewCountryViewModel(country: country)
-        let vc = DetailsController(vm)
-        self.navigationController?.pushViewController(vc, animated: true)
+    
+    
+}
+// MARK: - ViewCountryViewModelDelegate
+extension HomeController: ViewCountryViewModelDelegate {
+    func countriesFetched(_ countries: [Country]) {
+        self.countries = countries
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
+    func navigateToDetailsVC(country: Country) {
+        let detailsVC = DetailsController(country: country)
+        self.navigationController?.pushViewController(detailsVC, animated: true)
+    }
+}
+
+extension HomeController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        viewModel.didSelectRowAt(index: indexPath)
+
+    }
+}
+
+extension HomeController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        print("asd")
+    }
 }

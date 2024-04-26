@@ -7,48 +7,71 @@
 
 import UIKit
 
-class ViewCountryViewModel {
+protocol ViewCountryViewModelDelegate: AnyObject {
+    func countriesFetched(_ countries: [Country])
+    func navigateToDetailsVC(country: Country)
     
-    var onImageLoaded: ((UIImage?)-> Void)?
+}
+
+final class ViewCountryViewModel {
+    private let networking = NetworkManager.shared
+       private var countries: [Country] = []
+       var filtredCountries: [Country] = []
+       
+       weak var delegate: ViewCountryViewModelDelegate?
+       
+       // Define onCountryUpdated closure
+       var onCountryUpdated: (() -> Void)?
     
-    //MARK: - Variables
-    let country: Countries
     
-    //MARK: - Initializer
-    init(country: Countries) {
-        self.country = country
-        self.loadImage()
+    func viewDidLoad() {
+        fetchCountries()
+        
     }
     
-    private func loadImage() {
-        
-        DispatchQueue.global().async { [weak self] in
-            if let flagsURL = self?.country.flagURL,
-               let imageData = try? Data(contentsOf: flagsURL),
-               let countryFlag = UIImage(data: imageData) {
-                self?.onImageLoaded?(countryFlag)
+    func didSelectRowAt(index: IndexPath) {
+        delegate?.navigateToDetailsVC(country: countries[index.row])
+    }
+    
+    private func fetchCountries() {
+        networking.fetchCountries { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let countries):
+                self.countries = countries
+                DispatchQueue.main.async {
+                    self.delegate?.countriesFetched(countries)
+                }
+            case .failure(let error):
+                // Handle error
+                print("Failed to fetch countries: \(error)")
             }
         }
-        }
-        //MARK: - Computed Properties
-        var regionLabel: String {
-            "Region: \(country.region?.description ?? "america")"
-        }
-        var nativeNameLabel: String {
-            "Name: \(country.name?.common?.description ?? "america")"
-        }
-        var spellingLabel: String {
-            "Spelling: \(country.altSpellings?.description ?? "america")"
-        }
-        var capitalLabel: String {
-            "Capital: \(country.capital?.description ?? "america")"
-        }
-        var statusLabel: String {
-            "status: \(country.status?.description ?? "america")"
-        }
-        var postalLabel: String {
-            "Postal: \(country.postalCode?.format?.description ?? "america")"
-        }
-        
     }
+    
+
+}
+
+extension ViewCountryViewModel {
+    public func inSearchMode(_ searchController: UISearchController) -> Bool {
+         let isActive = searchController.isActive {
+            let searchText = searchController.searchBar.text ?? ""
+            return isActive && !searchText.isEmpty
+         }
+    }
+    
+    public func updateSearchController(searchBarText: String?) {
+        self.filtredCountries = countries
+        
+        if let searchText = searchBarText?.lowercased() {
+            guard !searchText.isEmpty else { self.onCountryUpdated?(); return }
+            
+            self.filtredCountries = self.filtredCountries.filter({$0.name?.common?.description.lowercased().contains(searchText) ?? false})
+        }
+        self.onCountryUpdated?()
+    }
+}
+
+
+
 

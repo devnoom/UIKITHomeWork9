@@ -1,6 +1,6 @@
 import UIKit
 
-struct Map: Decodable {
+struct Map: Codable {
     let googleMaps: String?
     let openStreetMaps: String?
 
@@ -10,27 +10,27 @@ struct Map: Decodable {
     }
 }
 
-struct Flags: Decodable {
+struct Flags: Codable {
     let png: String?
     let svg: String?
     let alt: String?
 }
 
-struct PostalCode: Decodable {
+struct PostalCode: Codable {
     let format: String?
     let regex: String?
 }
 
-struct CapitalInfo: Decodable {
+struct CapitalInfo: Codable {
     let latlng: [Double]?
 }
 
-struct Name: Decodable {
+struct Name: Codable {
     let common: String?
     let official: String?
 }
 
-struct Countries: Decodable {
+struct Country: Codable {
     let name: Name?
     let altSpellings: [String]?
     let region: String?
@@ -56,13 +56,4 @@ struct Countries: Decodable {
         case capitalInfo
         case postalCode
     }
-    
-    var flagURL: URL? {
-        return URL(string:
-                    "https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FFlag_of_Georgia_%2528country%2529&psig=AOvVaw3Yes7GblYD02IhVFjb0RnW&ust=1714118277677000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCJiT5qjy3IUDFQAAAAAdAAAAABAE")
-    }
-    
-    
-    
-    
 }
