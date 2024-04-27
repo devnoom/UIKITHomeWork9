@@ -52,25 +52,25 @@ final class ViewCountryViewModel {
 
 }
 
-extension ViewCountryViewModel {
-    public func inSearchMode(_ searchController: UISearchController) -> Bool {
-         let isActive = searchController.isActive {
-            let searchText = searchController.searchBar.text ?? ""
-            return isActive && !searchText.isEmpty
-         }
-    }
-    
-    public func updateSearchController(searchBarText: String?) {
-        self.filtredCountries = countries
-        
-        if let searchText = searchBarText?.lowercased() {
-            guard !searchText.isEmpty else { self.onCountryUpdated?(); return }
-            
-            self.filtredCountries = self.filtredCountries.filter({$0.name?.common?.description.lowercased().contains(searchText) ?? false})
-        }
-        self.onCountryUpdated?()
-    }
-}
+//extension ViewCountryViewModel {
+//    public func inSearchMode(_ searchController: UISearchController) -> Bool {
+//         let isActive = searchController.isActive {
+//            let searchText = searchController.searchBar.text ?? ""
+//            return isActive && !searchText.isEmpty
+//         }
+//    }
+//    
+//    public func updateSearchController(searchBarText: String?) {
+//        self.filtredCountries = countries
+//        
+//        if let searchText = searchBarText?.lowercased() {
+//            guard !searchText.isEmpty else { self.onCountryUpdated?(); return }
+//            
+//            self.filtredCountries = self.filtredCountries.filter({$0.name?.common?.description.lowercased().contains(searchText) ?? false})
+//        }
+//        self.onCountryUpdated?()
+//    }
+//}
 
 
 

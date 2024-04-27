@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D00536222BDCCDE000D66B43 /* loginpage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00536212BDCCDE000D66B43 /* loginpage.swift */; };
+		D00536242BDCCF5400D66B43 /* mainStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00536232BDCCF5400D66B43 /* mainStack.swift */; };
+		D00536262BDCCF7E00D66B43 /* InnerStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00536252BDCCF7E00D66B43 /* InnerStack.swift */; };
 		D014D5482BD9136500713BF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D014D5472BD9136500713BF0 /* AppDelegate.swift */; };
 		D014D54A2BD9136500713BF0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D014D5492BD9136500713BF0 /* SceneDelegate.swift */; };
 		D014D5512BD9136700713BF0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D014D5502BD9136700713BF0 /* Assets.xcassets */; };
@@ -21,6 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D00536212BDCCDE000D66B43 /* loginpage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = loginpage.swift; sourceTree = "<group>"; };
+		D00536232BDCCF5400D66B43 /* mainStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainStack.swift; sourceTree = "<group>"; };
+		D00536252BDCCF7E00D66B43 /* InnerStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InnerStack.swift; sourceTree = "<group>"; };
 		D014D5442BD9136500713BF0 /* UIKITHomeWork9.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UIKITHomeWork9.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D014D5472BD9136500713BF0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D014D5492BD9136500713BF0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +53,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D00536272BDCD1F100D66B43 /* Keychain */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Keychain;
+			sourceTree = "<group>";
+		};
 		D014D53B2BD9136500713BF0 = {
 			isa = PBXGroup;
 			children = (
@@ -66,6 +79,7 @@
 		D014D5462BD9136500713BF0 /* UIKITHomeWork9 */ = {
 			isa = PBXGroup;
 			children = (
+				D00536272BDCD1F100D66B43 /* Keychain */,
 				D014D5762BD993FA00713BF0 /* API */,
 				D014D5752BD993F600713BF0 /* Models */,
 				D014D5742BD993F200713BF0 /* Views */,
@@ -110,6 +124,9 @@
 			isa = PBXGroup;
 			children = (
 				D014D57D2BD998D800713BF0 /* CountryCell.swift */,
+				D00536212BDCCDE000D66B43 /* loginpage.swift */,
+				D00536232BDCCF5400D66B43 /* mainStack.swift */,
+				D00536252BDCCF7E00D66B43 /* InnerStack.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -201,13 +218,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0E99C0A2BDA3D2B0035835E /* ViewCountryViewModel.swift in Sources */,
+				D00536262BDCCF7E00D66B43 /* InnerStack.swift in Sources */,
 				D014D5812BD9A2B400713BF0 /* DetailsController.swift in Sources */,
 				D02943752BDC284A008C1CD9 /* networkManager.swift in Sources */,
 				D014D5782BD9944000713BF0 /* HomeController.swift in Sources */,
+				D00536222BDCCDE000D66B43 /* loginpage.swift in Sources */,
 				D014D5482BD9136500713BF0 /* AppDelegate.swift in Sources */,
 				D014D57E2BD998D800713BF0 /* CountryCell.swift in Sources */,
 				D014D54A2BD9136500713BF0 /* SceneDelegate.swift in Sources */,
 				D014D57C2BD9964500713BF0 /* Country.swift in Sources */,
+				D00536242BDCCF5400D66B43 /* mainStack.swift in Sources */,
 				D014D57A2BD994CD00713BF0 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
